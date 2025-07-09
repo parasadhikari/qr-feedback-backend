@@ -1,13 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+require('dotenv').config(); // ✅ If using .env file for MONGO_URI
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Allow frontend domain (CORS fix)
+// ✅ CORS Configuration
 app.use(cors({
-  origin: 'https://qr-feedback-frontend.vercel.app',
+  origin: 'https://qr-feedback-frontend.vercel.app', // your frontend deployed URL
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 }));
@@ -26,4 +27,4 @@ mongoose.connect(process.env.MONGO_URI, {
   app.listen(PORT, () => {
     console.log(`🚀 Server is running on port ${PORT}`);
   });
-}).catch(err => console.error('MongoDB connection error:', err));
+}).catch(err => console.error('❌ MongoDB connection error:', err));
