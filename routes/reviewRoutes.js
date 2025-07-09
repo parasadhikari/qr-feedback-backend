@@ -6,6 +6,10 @@ const Review = require('../models/Review');
 router.post('/', async (req, res) => {
   const { name, message, rating } = req.body;
 
+  if (!name || !message) {
+    return res.status(400).json({ error: 'Name and message are required' });
+  }
+
   try {
     const newReview = new Review({ name, message, rating });
     await newReview.save();
