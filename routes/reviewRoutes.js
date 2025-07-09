@@ -1,27 +1,27 @@
 const express = require('express');
 const router = express.Router();
-const Review = require('../models/Review'); // Adjust the path if needed
+const Review = require('../models/Review');
 
-// POST route to save reviews
-router.post('/api/reviews', async (req, res) => {
+// POST a new review
+router.post('/', async (req, res) => {
   const { name, message, rating } = req.body;
 
   try {
-    const review = new Review({ name, message, rating });
-    await review.save();
-    res.status(201).json({ message: 'Review saved successfully!' });
+    const newReview = new Review({ name, message, rating });
+    await newReview.save();
+    res.status(201).json(newReview);
   } catch (err) {
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Failed to save review' });
   }
 });
 
-// GET route to fetch reviews (optional but useful)
-router.get('/api/reviews', async (req, res) => {
+// GET all reviews
+router.get('/', async (req, res) => {
   try {
-    const reviews = await Review.find().sort({ createdAt: -1 });
+    const reviews = await Review.find();
     res.json(reviews);
   } catch (err) {
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Failed to fetch reviews' });
   }
 });
 
